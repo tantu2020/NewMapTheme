@@ -68,8 +68,8 @@ function initMap() {
     { lat: 22.631824, lng: 88.364596 },
 
     { lat: 22.648143, lng: 88.358927 },
-    { lat: 22.6531, lng: 88.377664 },
     { lat: 22.652104, lng: 88.36305 },
+    { lat: 22.6531, lng: 88.377664 },
     { lat: 22.648777, lng: 88.390534 },
   ];
   var northkolkata = new google.maps.Polygon({
