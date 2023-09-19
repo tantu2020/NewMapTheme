@@ -22,6 +22,7 @@ function closeNav() {
   document.body.style.backgroundColor = "white";
 }
 
+
 function fnShowOutageLayer() {
   var checkBox = document.getElementById("ShowOutageLayer");
   var KolkataPolygon = document.getElementById("map");
@@ -50,34 +51,49 @@ function initMap() {
       },
     ],
   };
-  var southKolkata = [
-    { lat: 22.6531, lng: 88.377664 },
-    { lat: 22.648777, lng: 88.390534 },
-    { lat: 22.628814, lng: 88.39208 },
-    { lat: 22.631349, lng: 88.379025 },
-  ];
-  var southKolkata = new google.maps.Polygon({
-    paths: southKolkata,
+var servedArea = [
+  {lat : 22.578856, lng : 88.365046},
+  {lat : 22.577647, lng : 88.369126},
+  {lat : 22.572852, lng : 88.367020},
+  {lat : 22.574279, lng : 88.363005}
+];
+var noServedArea = [
+  {lat : 22.577647, lng : 88.369126},
+  {lat : 22.576637, lng : 88.373313},
+  {lat : 22.575468, lng : 88.373183},
+  {lat : 22.571267, lng : 88.371272},
+  {lat : 22.572852, lng : 88.367020}
+];
+
+
+  // var servedArea = [
+  //   { lat: 22.6531, lng: 88.377664 },
+  //   { lat: 22.648777, lng: 88.390534 },
+  //   { lat: 22.628814, lng: 88.39208 },
+  //   { lat: 22.631349, lng: 88.379025 },
+  // ];
+  var servedArea = new google.maps.Polygon({
+    paths: servedArea,
     strokeColor: "green",
     strokeOpacity: 0.9,
     strokeWeight: 3,
     fillColor: "#00ff00",
     fillOpacity: 0.3,
   });
-  var northkolkata = [
-    { lat: 22.631824, lng: 88.364596 },
+  // var noServedArea = [
+  //   { lat: 22.631824, lng: 88.364596 },
 
-    { lat: 22.648143, lng: 88.358927 },
-    { lat: 22.652104, lng: 88.36305 },
-    { lat: 22.6531, lng: 88.377664 },
-    { lat: 22.648777, lng: 88.390534 },
-  ];
-  var northkolkata = new google.maps.Polygon({
-    paths: northkolkata,
-    strokeColor: "yellow",
+  //   { lat: 22.648143, lng: 88.358927 },
+  //   { lat: 22.652104, lng: 88.36305 },
+  //   { lat: 22.6531, lng: 88.377664 },
+  //   { lat: 22.648777, lng: 88.390534 },
+  // ];
+  var noServedArea = new google.maps.Polygon({
+    paths: noServedArea,
+    strokeColor: "red",
     strokeOpacity: 0.9,
     strokeWeight: 3,
-    fillColor: "yellow",
+    fillColor: "red",
     fillOpacity: 0.3,
   });
 
@@ -139,8 +155,8 @@ function initMap() {
   map.setTilt(50);
   // Draw the polygon on the desired map instance
   KolkataPolygon.setMap(map);
-  southKolkata.setMap(map);
-  northkolkata.setMap(map);
+  servedArea.setMap(map);
+  noServedArea.setMap(map);
   // Multiple markers location, latitude, and longitude
   var markers = [
     ["Kolkata", 22.572645, 88.363892],
