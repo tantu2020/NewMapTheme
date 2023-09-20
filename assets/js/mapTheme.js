@@ -1,36 +1,28 @@
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+/* For Left Navigation */
 function LeftopenNav() {
-  document.getElementById("leftSidenav").style.width = "250px";
+  document.getElementById("leftSidenav").style.width = "250px";  //set the navigation width 250px
   document.getElementById("main").style.marginLeft = "250px";
 }
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
 function LeftcloseNav() {
   document.getElementById("leftSidenav").style.width = "0";
   document.getElementById("main").style.marginLeft = "0";
 }
 
+
+/* For Right Navigation */
 function openNav() {
-  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("mySidenav").style.width = "250px";  //set the navigation width 250px
   document.getElementById("main").style.marginRight = "250px";
   document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
 }
-
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
   document.getElementById("main").style.marginRight = "0";
   document.body.style.backgroundColor = "white";
 }
 
-function fnShowOutageLayer() {
-  var checkBox = document.getElementById("ShowOutageLayer");
-  var KolkataPolygon = document.getElementById("map");
-  if (checkBox.checked == true) {
-    KolkataPolygon.style.display = "block";
-  } else {
-    KolkataPolygon.style.display = "none";
-  }
-}
+
+
 
 // Initialize and add the map
 function initMap() {
@@ -50,37 +42,66 @@ function initMap() {
       },
     ],
   };
-  var southKolkata = [
-    { lat: 22.6531, lng: 88.377664 },
-    { lat: 22.648777, lng: 88.390534 },
-    { lat: 22.628814, lng: 88.39208 },
-    { lat: 22.631349, lng: 88.379025 },
+
+  // declear and set served area lat lng coordinator 
+  var servedArea = [];
+
+  var sArea1 = [
+    { lat: 22.581952, lng: 88.349847 },
+    { lat: 22.579416, lng: 88.356374 },
+    { lat: 22.572204, lng: 88.352853 },
+    { lat: 22.574344, lng: 88.346153 },
   ];
-  var southKolkata = new google.maps.Polygon({
-    paths: southKolkata,
+  var sArea2 = [
+    { lat: 22.576959, lng: 88.364362 },
+    { lat: 22.585042, lng: 88.374840 },
+    { lat: 22.593839, lng: 88.375441 },
+    // { lat: 22.585201, lng: 88.374840 },
+    { lat: 22.576642, lng: 88.373895 },
+    { lat: 22.571015, lng: 88.371147 },
+  ];
+  servedArea.push(sArea1, sArea2);
+  console.log(servedArea);
+
+  function fnPathAdd(){
+    var servedCheckBox = document.getElementById("servedCheckBox");
+    
+    if (servedCheckBox.checked == true){
+      alert("checked")
+    } else {
+      alert("un checked")
+    };
+};
+
+  var servedArea = new google.maps.Polygon({
+    paths: servedArea,
     strokeColor: "green",
     strokeOpacity: 0.9,
     strokeWeight: 3,
     fillColor: "#00ff00",
     fillOpacity: 0.3,
+    // function: fnPathAdd()
   });
-  var northkolkata = [
-    { lat: 22.631824, lng: 88.364596 },
 
-    { lat: 22.648143, lng: 88.358927 },
-    { lat: 22.6531, lng: 88.377664 },
-    { lat: 22.652104, lng: 88.36305 },
-    { lat: 22.648777, lng: 88.390534 },
+// declear and set non-served area lat lng coordinator 
+  var noServedArea = [
+    { lat: 22.577647, lng: 88.369126 },
+    { lat: 22.576637, lng: 88.373313 },
+    { lat: 22.575468, lng: 88.373183 },
+    { lat: 22.571267, lng: 88.371272 },
+    { lat: 22.572852, lng: 88.367020 }
   ];
-  var northkolkata = new google.maps.Polygon({
-    paths: northkolkata,
-    strokeColor: "yellow",
+
+  var noServedArea = new google.maps.Polygon({
+    paths: noServedArea,
+    strokeColor: "red",
     strokeOpacity: 0.9,
     strokeWeight: 3,
-    fillColor: "yellow",
+    fillColor: "red",
     fillOpacity: 0.3,
   });
 
+  // declear and set boundary area lat lng coordinator 
   var kolkataBoundary = [
     { lng: 88.2707, lat: 22.5518 },
     { lng: 88.2836, lat: 22.5481 },
@@ -126,7 +147,7 @@ function initMap() {
 
   // Construct the polygon.
   var KolkataPolygon = new google.maps.Polygon({
-    paths: kolkataBoundary,
+    paths: [kolkataBoundary],
     strokeColor: "#800080",
     strokeOpacity: 0.8,
     strokeWeight: 3,
@@ -134,13 +155,23 @@ function initMap() {
     fillOpacity: 0,
   });
 
+
+
+
+
+
   // Display a map on the web page
   map = new google.maps.Map(document.getElementById("map"), mapOptions);
   map.setTilt(50);
+
   // Draw the polygon on the desired map instance
   KolkataPolygon.setMap(map);
-  southKolkata.setMap(map);
-  northkolkata.setMap(map);
+  servedArea.setMap(map);
+  noServedArea.setMap(map);
+
+
+
+
   // Multiple markers location, latitude, and longitude
   var markers = [
     ["Kolkata", 22.572645, 88.363892],
@@ -169,35 +200,35 @@ function initMap() {
   var infoWindowContent = [
     [
       '<div class="info_content">' +
-        '<img class="img-fluid" src="./assets/strom.jpg"/>' +
-        "<h2>Total active outages : 19</h2>" +
-        "<h3>Customers out of service : 140</h3>" +
-        "<p>Estimated restoration time : 19 Jul 2022 11:41 AM</p>" +
-        "</div>",
+      '<img class="img-fluid" src="./assets/strom.jpg"/>' +
+      "<h2>Total active outages : 19</h2>" +
+      "<h3>Customers out of service : 140</h3>" +
+      "<p>Estimated restoration time : 19 Jul 2022 11:41 AM</p>" +
+      "</div>",
     ],
     [
       '<div class="info_content">' +
-        '<img class="img-fluid" src="./assets/strom.jpg"/>' +
-        "<h2>Total active outages : 19</h2>" +
-        "<h3>Customers out of service : 140</h3>" +
-        "<p>Estimated restoration time : 19 Jul 2022 11:41 AM</p>" +
-        "</div>",
+      '<img class="img-fluid" src="./assets/strom.jpg"/>' +
+      "<h2>Total active outages : 19</h2>" +
+      "<h3>Customers out of service : 140</h3>" +
+      "<p>Estimated restoration time : 19 Jul 2022 11:41 AM</p>" +
+      "</div>",
     ],
     [
       '<div class="info_content">' +
-        '<img class="img-fluid" src="./assets/strom.jpg"/>' +
-        "<h2>Total active outages : 19</h2>" +
-        "<h3>Customers out of service : 140</h3>" +
-        "<p>Estimated restoration time : 19 Jul 2022 11:41 AM</p>" +
-        "</div>",
+      '<img class="img-fluid" src="./assets/strom.jpg"/>' +
+      "<h2>Total active outages : 19</h2>" +
+      "<h3>Customers out of service : 140</h3>" +
+      "<p>Estimated restoration time : 19 Jul 2022 11:41 AM</p>" +
+      "</div>",
     ],
     [
       '<div class="info_content">' +
-        '<img class="img-fluid" src="./assets/strom.jpg"/>' +
-        "<h2>Total active outages : 19</h2>" +
-        "<h3>Customers out of service : 140</h3>" +
-        "<p>Estimated restoration time : 19 Jul 2022 11:41 AM</p>" +
-        "</div>",
+      '<img class="img-fluid" src="./assets/strom.jpg"/>' +
+      "<h2>Total active outages : 19</h2>" +
+      "<h3>Customers out of service : 140</h3>" +
+      "<p>Estimated restoration time : 19 Jul 2022 11:41 AM</p>" +
+      "</div>",
     ],
   ];
 
